@@ -47,7 +47,7 @@ The file follows the following format:
 
 See the file script for an example of the file format
 """
-ARG_COMMANDS = [ 'circle', 'bezier', 'hermite', 'line', 'scale', 'move', 'rotate', 'save' ]
+ARG_COMMANDS = [ 'circle', 'bezier', 'hermite', 'line', 'scale', 'move', 'rotate', 'save', 'box', 'torus', 'sphere' ]
 
 def parse_file( fname, edges, transform, screen, color ):
 
@@ -65,7 +65,20 @@ def parse_file( fname, edges, transform, screen, color ):
             c+= 1
             args = lines[c].strip().split(' ')
 
-        if line == 'circle':
+        if line == 'sphere':
+            add_sphere( edges, float(args[0]), float(args[1]), float(args[2]),
+                       float(args[3]), step)
+            
+        elif line == 'torus':
+            add_torus(edges, float(args[0]), float(args[1]), float(args[2]),
+                       float(args[3]), float(args[4]), step)
+
+        elif line == 'box':
+            add_box(edges, float(args[0]), float(args[1]),
+                      float(args[2]), float(args[3]),
+                      float(args[4]), float(args[5]))
+            
+        elif line == 'circle':
             #print 'CIRCLE\t' + str(args)
             add_circle(edges,
                        float(args[0]), float(args[1]), float(args[2]),
@@ -108,7 +121,10 @@ def parse_file( fname, edges, transform, screen, color ):
             else:
                 t = make_rotZ(theta)
             matrix_mult(t, transform)
-                
+
+        elif line == 'clear':
+            edges = []
+            
         elif line == 'ident':
             ident(transform)
 
