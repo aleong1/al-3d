@@ -7,7 +7,6 @@ from matrix import *
   # height and depth dimensions.
   # ====================
 def add_box( points, x, y, z, width, height, depth ):
-    #add_edge( matrix, x0, y0, z0, x1, y1, z1 ):
     
     add_edge(points, x, y, z, x+width, y, z)
     add_edge(points, x, y, z, x, y-height, z)
