@@ -27,17 +27,19 @@ def add_box( points, x, y, z, width, height, depth ):
   # Returns a matrix of those points
   # ====================
 def generate_sphere( points, cx, cy, cz, r, step ):
-    phi = 0
+    p = 0
+    t = 0
     m = []
-    while phi < 2*math.pi:
-        theta = 0
-        while theta < math.pi:
+    while p < step:
+        while t < step/2:
+            theta = t * 2 * math.pi/step
+            phi = p * 2 * math.pi/step
             x = r*math.cos(theta)+cx
             y = r*math.sin(theta)*math.cos(phi)+cy
             z = r*math.sin(theta)*math.sin(phi)+cz
             add_point(m, x, y, z)
-            theta = theta * 2 * math.pi/step
-        phi += phi * 2 * math.pi/step
+            t += 1
+        p += 1
     return m
 
   # ====================
@@ -59,17 +61,19 @@ def add_sphere( points, cx, cy, cz, r, step ):
   # Returns a matrix of those points
   # ====================
 def generate_torus( points, cx, cy, cz, r0, r1, step ):
-    phi = 0
+    p = 0
+    t = 0
     m = []
-    while phi < 2*math.pi:
-        theta = 0
-        while theta < math.pi:
+    while p < step:
+        while t < step/2:
+            theta = t * 2 * math.pi/step
+            phi = p * 2 * math.pi/step
             x = math.cos(phi)*(r0*math.cos(theta)+r1)+cx
             y = r0*math.sin(theta)+cy
             z = -1*math.sin(phi)*(r0*math.cos(theta)+r1)+cz
             add_point(m, x, y, z)
-            theta = theta * 2 * math.pi/step
-        phi += phi * 2 * math.pi/step
+            t += 1
+        p += 1
     return m
 
 
