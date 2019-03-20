@@ -28,9 +28,9 @@ def add_box( points, x, y, z, width, height, depth ):
   # ====================
 def generate_sphere( points, cx, cy, cz, r, step ):
     p = 0
-    t = 0
     m = []
     while p < step:
+        t = 0
         while t < step/2:
             theta = t * 2 * math.pi/step
             phi = p * 2 * math.pi/step
@@ -62,10 +62,10 @@ def add_sphere( points, cx, cy, cz, r, step ):
   # ====================
 def generate_torus( points, cx, cy, cz, r0, r1, step ):
     p = 0
-    t = 0
     m = []
     while p < step:
-        while t < step/2:
+        t = 0
+        while t < step:
             theta = t * 2 * math.pi/step
             phi = p * 2 * math.pi/step
             x = math.cos(phi)*(r0*math.cos(theta)+r1)+cx
