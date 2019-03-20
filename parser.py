@@ -11,13 +11,13 @@ The file follows the following format:
 
          sphere: add a sphere to the edge matrix -
                  takes 4 arguemnts (cx, cy, cz, r)
-         torus: add a torus to the edge matrix - 
+         torus: add a torus to the edge matrix -
                 takes 5 arguemnts (cx, cy, cz, r1, r2)
-         box: add a rectangular prism to the edge matrix - 
-              takes 6 arguemnts (x, y, z, width, height, depth)	    
+         box: add a rectangular prism to the edge matrix -
+              takes 6 arguemnts (x, y, z, width, height, depth)
 
 
-	 circle: add a circle to the edge matrix - 
+	 circle: add a circle to the edge matrix -
 	         takes 4 arguments (cx, cy, cz, r)
 	 hermite: add a hermite curve to the edge matrix -
 	          takes 8 arguments (x0, y0, x1, y1, rx0, ry0, rx1, ry1)
@@ -67,17 +67,17 @@ def parse_file( fname, edges, transform, screen, color ):
 
         if line == 'sphere':
             add_sphere( edges, float(args[0]), float(args[1]), float(args[2]),
-                       float(args[3]), step)
-            
+                       float(args[3]), 30)
+
         elif line == 'torus':
             add_torus(edges, float(args[0]), float(args[1]), float(args[2]),
-                       float(args[3]), float(args[4]), step)
+                       float(args[3]), float(args[4]), 30)
 
         elif line == 'box':
             add_box(edges, float(args[0]), float(args[1]),
                       float(args[2]), float(args[3]),
                       float(args[4]), float(args[5]))
-            
+
         elif line == 'circle':
             #print 'CIRCLE\t' + str(args)
             add_circle(edges,
@@ -113,7 +113,7 @@ def parse_file( fname, edges, transform, screen, color ):
         elif line == 'rotate':
             #print 'ROTATE\t' + str(args)
             theta = float(args[1]) * (math.pi / 180)
-            
+
             if args[0] == 'x':
                 t = make_rotX(theta)
             elif args[0] == 'y':
@@ -123,8 +123,9 @@ def parse_file( fname, edges, transform, screen, color ):
             matrix_mult(t, transform)
 
         elif line == 'clear':
+            screen = new_screen()
             edges = []
-            
+
         elif line == 'ident':
             ident(transform)
 
@@ -139,5 +140,5 @@ def parse_file( fname, edges, transform, screen, color ):
                 display(screen)
             else:
                 save_extension(screen, args[0])
-            
+
         c+= 1
