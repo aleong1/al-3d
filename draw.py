@@ -2,12 +2,11 @@ from display import *
 from matrix import *
 
   # ====================
-  # add the points for a rectagular prism whose 
-  # upper-left corner is (x, y, z) with width, 
+  # add the points for a rectagular prism whose
+  # upper-left corner is (x, y, z) with width,
   # height and depth dimensions.
   # ====================
 def add_box( points, x, y, z, width, height, depth ):
-    
     add_edge(points, x, y, z, x+width, y, z)
     add_edge(points, x, y, z, x, y-height, z)
     add_edge(points, x, y, z, x, y, z-depth)
@@ -28,16 +27,29 @@ def add_box( points, x, y, z, width, height, depth ):
   # Returns a matrix of those points
   # ====================
 def generate_sphere( points, cx, cy, cz, r, step ):
-    pass
+    phi = 0
+    m = []
+    while phi < 2*math.pi:
+        theta = 0
+        while theta < math.pi:
+            x = r*math.cos(theta)+cx
+            y = r*math.sin(theta)*math.cos(phi)+cy
+            z = r*math.sin(theta)*math.sin(phi)+cz
+            add_point(m, x, y, z)
+            theta = theta * 2 * math.pi/step
+        phi += phi * 2 * math.pi/step
+    return m
 
   # ====================
-  # adds all the points for a sphere with center 
+  # adds all the points for a sphere with center
   # (cx, cy, cz) and radius r to points
   # should call generate_sphere to create the
   # necessary points
   # ====================
 def add_sphere( points, cx, cy, cz, r, step ):
-    pass
+    m = generate_sphere(points, cx, cy, cz, r, step)
+    for a in m:
+        add_edge(m, a[0], a[1], a[2], a[0]+1, a[1]+1, a[2]+1)
 
 
   # ====================
@@ -47,7 +59,19 @@ def add_sphere( points, cx, cy, cz, r, step ):
   # Returns a matrix of those points
   # ====================
 def generate_torus( points, cx, cy, cz, r0, r1, step ):
-    pass
+    phi = 0
+    m = []
+    while phi < 2*math.pi:
+        theta = 0
+        while theta < math.pi:
+            x = math.cos(phi)*(r0*math.cos(theta)+r1)+cx
+            y = r0*math.sin(theta)+cy
+            z = -1*math.sin(phi)*(r0*math.cos(theta)+r1)+cz
+            add_point(m, x, y, z)
+            theta = theta * 2 * math.pi/step
+        phi += phi * 2 * math.pi/step
+    return m
+
 
   # ====================
   # adds all the points for a torus with center
@@ -56,7 +80,9 @@ def generate_torus( points, cx, cy, cz, r0, r1, step ):
   # necessary points
   # ====================
 def add_torus( points, cx, cy, cz, r0, r1, step ):
-    pass
+    m = generate_torus(points, cx, cy, cz, r0, r1, step)
+    for a in m:
+        add_edge(m, a[0], a[1], a[2], a[0]+1, a[1]+1, a[2]+1)
 
 
 
@@ -96,7 +122,7 @@ def add_curve( points, x0, y0, x1, y1, x2, y2, x3, y3, step, curve_type ):
 
 def draw_lines( matrix, screen, color ):
     if len(matrix) < 2:
-        print 'Need at least 2 points to draw'
+        print ('Need at least 2 points to draw')
         return
 
     point = 0
@@ -105,16 +131,16 @@ def draw_lines( matrix, screen, color ):
                    int(matrix[point][1]),
                    int(matrix[point+1][0]),
                    int(matrix[point+1][1]),
-                   screen, color)    
+                   screen, color)
         point+= 2
-        
+
 def add_edge( matrix, x0, y0, z0, x1, y1, z1 ):
     add_point(matrix, x0, y0, z0)
     add_point(matrix, x1, y1, z1)
-    
+
 def add_point( matrix, x, y, z=0 ):
     matrix.append( [x, y, z, 1] )
-    
+
 
 
 
@@ -138,7 +164,7 @@ def draw_line( x0, y0, x1, y1, screen, color ):
     if ( abs(x1-x0) >= abs(y1 - y0) ):
 
         #octant 1
-        if A > 0:            
+        if A > 0:
             d = A + B/2
 
             while x < x1:
